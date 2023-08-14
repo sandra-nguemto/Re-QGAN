@@ -13,8 +13,8 @@ Adversarial learning represents a powerful technique for generating data statist
 - [ ] [cma](https://pypi.python.org/pypi/cma)
 
 ## Developer - Oak Ridge National Laboratory 
-- [ ] S. Nguemto anguemto@vols.utk.edu
-- [ ] V. Leyton-Ortega vlk@ornl.gov
+- [ ] Sandra Nguemto anguemto@vols.utk.edu
+- [ ] Vicente Leyton-Ortega vlk@ornl.gov
 
 ## Funding 
 The Re-QGAN project is supported by the DOE Advanced Scientific Computing Research (ASCR) Accelerated Research in Quantum Computing (ARQC) Program at Oak Ridge National Laboratory under field work proposal ERKJ354.
