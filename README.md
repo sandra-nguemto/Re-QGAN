@@ -24,6 +24,7 @@ The Re-QGAN project is supported by the DOE Advanced Scientific Computing Resear
 
 ## Citation
 
+```bibtex
 @software{Nguemto_Re-QGAN_2023,
 author = {Nguemto, Sandra and Leyton-Ortega, Vicente},
 month = aug,
@@ -31,4 +32,5 @@ title = {{Re-QGAN}},
 url = {https://github.com/sandra-nguemto/Re-QGAN},
 year = {2023}
 }
+```
  
