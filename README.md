@@ -20,5 +20,7 @@ Adversarial learning represents a powerful technique for generating data statist
 The Re-QGAN project is supported by the DOE Advanced Scientific Computing Research (ASCR) Accelerated Research in Quantum Computing (ARQC) Program at Oak Ridge National Laboratory under field work proposal ERKJ354.
 
 ## License
-- [ ] [mit]()
+- [ ] [MIT](https://choosealicense.com/licenses/mit/)
+
+
  
