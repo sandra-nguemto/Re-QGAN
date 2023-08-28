@@ -8,7 +8,7 @@ Adversarial learning represents a powerful technique for generating data statist
 
 ## Dependencies
 - [ ] [Python 3.7+](https://www.python.org/downloads/)
-- [ ] [Qiskit 0.37.0+](https://qiskit.org)
+- [ ] [Qiskit 0.37.0](https://qiskit.org)
 - [ ] [Numpy](https://numpy.org/install/)
 - [ ] [cma](https://pypi.python.org/pypi/cma)
 
