@@ -16,8 +16,10 @@ from PQC import *
 from sklearn.decomposition import PCA
 from qiskit.quantum_info.states.statevector import Statevector
 from qiskit.quantum_info.operators.symplectic import Pauli
+import qiskit.providers.fake_provider as fake_provider
 import pandas as pd
 import climin
+from tensorflow.keras.datasets import mnist
 import qiskit_aer.noise as noise
 
 
@@ -52,15 +54,16 @@ def reduced_data(n_q, shape, n_comp_max = 10, idx = 0):
         pca_ = PCA(n_components=dim)
     data = []
     if shape == 'digits':
-        mnist = pd.read_csv('mnist.csv')  
-        indices = [i for i in range(mnist.label.size) if mnist.label[i] == idx]
-        # we take just fewer indices, the real amount is quite big
-        fewer_indices = indices[:n_comp_max]
-        mnist.drop(columns='label', inplace=True)
-        mnist_subset = []
-        for i in fewer_indices:
-            mnist_subset.append(mnist.iloc[i].values)
-        mnist_reduced = pca_.fit_transform(np.array(mnist_subset)/255)
+        (image, indices), _ = mnist.load_data()
+        # only pick images of a certain digit given by idx
+        indices = np.where(indices == idx)
+        # pick only n_comp_max images
+        indices = indices[0][:n_comp_max]
+        # pick the images corresponding to the indices
+        image_subset = image[indices]
+        image_subset = image_subset.reshape(n_comp_max, 784)
+        image_subset = image_subset/255
+        mnist_reduced = pca_.fit_transform(image_subset)
         mnist_reduced = np.array(mnist_reduced)
         mnist_decomp = pca_.inverse_transform(mnist_reduced)
         return mnist_reduced, mnist_decomp, pca_ 
@@ -122,13 +125,15 @@ class qgan:
         self.data = data 
         self.noise_simulation = noise_simulation
         #backend (which quantum simulator to use)
-        if backend ==  'simulator':
-            self.backend = Aer.get_backend('aer_simulator')
-            self.backend.set_options(device='QPU')
-        if backend == 'aer_simulator':
-            self.backend = Aer.get_backend('aer_simulator')
+        ## make a dictionary of backends to avoid if statements
+        backends = dict();
+        backends['simulator'] = Aer.get_backend('aer_simulator')
+        backends['gpu_simulator'] = Aer.get_backend('aer_simulator')
+        backends['fake_bogota'] = fake_provider.FakeBogota()
+        self.backend = backends[backend]
+        if backend == 'gpu_simulator':
             self.backend.set_options(device='GPU')
-
+        #
         #building the generator's pqc
         self.gen = pqc_general(qubits)
         self.qc_gen, self.p_gen = self.gen.build_qpc()
