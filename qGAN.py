@@ -19,6 +19,7 @@ from qiskit.quantum_info.operators.symplectic import Pauli
 import qiskit.providers.fake_provider as fake_provider
 import pandas as pd
 import climin
+from joblib import Parallel, delayed
 from tensorflow.keras.datasets import mnist
 import qiskit_aer.noise as noise
 
@@ -569,8 +570,12 @@ class qgan:
             if self.opt == 'cma':
                 options = {'maxfevals':self.opt_maxevals,'tolx': 1e-12, 'AdaptSigma': True, 'CMA_elitist':False, 'popsize': 4 + np.floor(2*np.log(dim))}
                 res = cma.CMAEvolutionStrategy(x0, 0.1, options)
-                r = res.optimize(self.obj_function_disc).result #training the discriminator
-                self.x_dopt = r[0]
+                while not res.stop():
+                    solutions = res.ask()
+                    costs = Parallel(n_jobs=5)(delayed(self.obj_function_disc)(x) for x in res.ask())
+                    res.tell(solutions, costs)
+                res.disp()
+                self.x_dopt = res.result[0]
                 self.inter_real.append(np.array(self.res_real))
             ####################################
             #Adam
@@ -593,11 +598,16 @@ class qgan:
             ###################################
             # CMA-ES
             if self.opt == 'cma':
-                options = {'maxfevals':self.opt_maxevals,'tolx': 1e-12, 'AdaptSigma': True, 'CMA_elitist':False, 'popsize': 4 + np.floor(2*np.log(dim))}
+                options = {'maxfevals':self.opt_maxevals,'tolx': 1e-12, 'AdaptSigma': True, 'CMA_elitist':False} #, 'popsize': 4 + np.floor(2*np.log(dim))}
                 res = cma.CMAEvolutionStrategy(x0, 0.1, options)
-                r = res.optimize(self.obj_function_gen).result
-                self.x_gen = r[0]
-                x_hist.append(r[0])
+                while not res.stop():
+                    solutions = res.ask()
+                    costs = Parallel(n_jobs=5)(delayed(self.obj_function_gen)(x) for x in res.ask())
+                    res.tell(solutions, costs)
+                res.disp()
+                #r = res.optimize(self.obj_function_gen).result
+                self.x_gen = res.result[0]
+                x_hist.append(res.result[0])
                 self.inter_gen.append(np.array(self.res_gen))
             #####################################
             # ADAM
