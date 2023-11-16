@@ -572,7 +572,7 @@ class qgan:
                 res = cma.CMAEvolutionStrategy(x0, 0.1, options)
                 while not res.stop():
                     solutions = res.ask()
-                    costs = Parallel(n_jobs=5)(delayed(self.obj_function_disc)(x) for x in res.ask())
+                    costs = Parallel(n_jobs=7)(delayed(self.obj_function_disc)(x) for x in res.ask())
                     res.tell(solutions, costs)
                 res.disp()
                 self.x_dopt = res.result[0]

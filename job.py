@@ -9,13 +9,12 @@ import sys
 import time
 
 # make the number of qubits a command line argument
-# make the number of qubits a command line argument
 parser = argparse.ArgumentParser()
 parser.add_argument('--nqubits', type=int, default=4)
 parser.add_argument('--nshots', type=int, default=1024)
 parser.add_argument('--nepochs', type=int, default=100)
 parser.add_argument('--nsteps', type=int, default=1000)
-parser.add_argument('--nsamples', type=int, default=25)
+parser.add_argument('--nsamples', type=int, default=50)
 parser.add_argument('--digit', type=int, default=0)
 parser.add_argument('--backend', type=str, default='simulator')
 #
