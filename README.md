@@ -13,7 +13,7 @@ Adversarial learning represents a powerful technique for generating data statist
 - [ ] [cma](https://pypi.python.org/pypi/cma)
 
 ## Developer - Oak Ridge National Laboratory 
-- [ ] Sandra Nguemto anguemto@vols.utk.edu
+- [ ] Sandra Nguemto anguemt1@jh.edu
 - [ ] Vicente Leyton-Ortega vlk@ornl.gov
 
 ## Funding 
